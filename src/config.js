@@ -1,0 +1,7 @@
+export const apiDomain = 'http://178.124.206.45:443/api/'
+export const allVacancy = apiDomain + 'vacancy/'
+export const search = apiDomain + 'search/'
+export const favorite = apiDomain + 'vacancy/favorite/'
+export const logout = apiDomain + 'logout'
+export const user = apiDomain + 'user'
+export const login = apiDomain + 'login'
