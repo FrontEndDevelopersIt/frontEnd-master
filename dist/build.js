@@ -29215,13 +29215,16 @@ function DeleteData(url, params, callback) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
 function requiredField(value) {
     return value !== '';
 }
+
 function validateEmail(email) {
     let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRE.test(email);
 }
+
 function checkPasswordLength(value, sum, total) {
     let length = value.length;
     let display;
@@ -29244,6 +29247,7 @@ function checkPasswordLength(value, sum, total) {
     }
     return msg;
 }
+
 function checkPasswordsMatch(password, password2) {
     if (password.length > 5 && password2.length > 5) {
         return password2 !== password;
@@ -29280,29 +29284,17 @@ function CheckPswd(password) {
     }
     return passwordMsg;
 }
+
+function testPhone(phone) {
+    let phoneRE = /^(\+375|80)(29|25|44|33)(\d{3})(\d{2})(\d{2})$/;
+    return phoneRE.test(phone);
+}
 /* harmony default export */ __webpack_exports__["a"] = ({
     requiredField,
     checkPasswordsMatch,
     CheckEmail,
-    CheckPswd
-    // const EMAIL = 'email';
-    // const PASSWORD = 'password';
-    //
-    // function validateField(key, value) {
-    //     let validationResult = true;
-    //
-    //     switch (key) {
-    //         case EMAIL:
-    //             validationResult = validateEmail(value)
-    //             break;
-    //         case PASSWORD:
-    //             validationResult = validatePassword(value)
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-
+    CheckPswd,
+    testPhone
 });
 
 /***/ }),
@@ -37386,6 +37378,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -37402,6 +37406,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             newUser: {
                 name: '',
                 email: '',
+                phone: '',
                 city: '',
                 password: '',
                 password2: '',
@@ -37414,7 +37419,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             passwordMsg2: '',
             disableBtn: true,
             showMsg: true,
-            btnMsg: ''
+            btnMsg: '',
+            phoneMsg: ''
         };
     },
     watch: {
@@ -37429,19 +37435,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(value);
             this.emailMsg = __WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].CheckEmail(value);
         },
+        'newUser.phone': function (value) {
+            console.log(value);
+            if (!__WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].testPhone(value)) {
+                this.phoneMsg = 'Invalid phone number';
+                console.log(this.phoneMsg);
+            } else {
+                this.phoneMsg = '';
+            }
+        },
         'newUser.password': function (value) {
             console.log(value);
             this.passwordMsg = __WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].CheckPswd(value);
-            this.disableBtn = __WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].checkPasswordsMatch(this.newUser.password, this.newUser.password2);
+            if (this.passwordMsg === '') {
+                if (!__WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].checkPasswordsMatch(this.newUser.password, this.newUser.password2)) {
+                    this.disableBtn = false;
+                    this.passwordMsg2 = '';
+                } else {
+                    this.disableBtn = true;
+                }
+            } else {
+                this.disableBtn = true;
+            }
             console.log(this.disableBtn);
         },
         'newUser.password2': function (value) {
             console.log(value);
             this.passwordMsg2 = __WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].CheckPswd(value);
-            if (!__WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].checkPasswordsMatch(this.newUser.password, this.newUser.password2)) {
-                this.disableBtn = false;
+            if (this.passwordMsg2 === '') {
+                if (!__WEBPACK_IMPORTED_MODULE_5__src_validation__["a" /* default */].checkPasswordsMatch(this.newUser.password, this.newUser.password2)) {
+                    this.disableBtn = false;
+                } else {
+                    this.passwordMsg2 = 'Passwords are not match';
+                    this.disableBtn = true;
+                }
             } else {
-                this.passwordMsg2 = 'Passwords are not match';
                 this.disableBtn = true;
             }
             console.log(this.disableBtn);
@@ -37457,6 +37485,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password: this.newUser.password,
                 password_confirmation: this.newUser.password2,
                 city: this.newUser.city,
+                phone: this.newUser.phone,
                 newsletter: this.newUser.mailing
             };
             let defaultUrl = '/check';
@@ -37468,9 +37497,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
                 localStorage.setItem('options', options);
             } else {
-                alert('Не все поля заполнены!!! ');
+                document.getElementById('msg').innerHTML = 'Не все поля заполнены!!! ';
             }
-            this.$route.params;
         }
     }
 });
@@ -42845,7 +42873,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.isError),
       expression: "isError"
     }]
-  }, [_vm._v(_vm._s(_vm.emailMsg))])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('tr', [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.emailMsg))])])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('tr', [_c('div', {
+    staticClass: "email"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newUser.phone),
+      expression: "newUser.phone"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "Phone",
+      "placeholder": "Phone number"
+    },
+    domProps: {
+      "value": (_vm.newUser.phone)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newUser.phone = $event.target.value
+      }
+    }
+  }), _c('br'), _vm._v(" "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isError),
+      expression: "isError"
+    }]
+  }, [_vm._v(_vm._s(_vm.phoneMsg))])])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('tr', [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "select"
   }, [_c('select', {
     directives: [{
@@ -42875,7 +42933,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "selected": "",
       "hidden": ""
     }
-  }, [_vm._v("Select city")]), _vm._v(" "), _c('option', [_vm._v("Брест")]), _vm._v(" "), _c('option', [_vm._v("Витебск")]), _vm._v(" "), _c('option', [_vm._v("Гомель")]), _vm._v(" "), _c('option', [_vm._v("Гродно")]), _vm._v(" "), _c('option', [_vm._v("Минск")])])])]), _vm._v(" "), _c('BR'), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('tr', [_c('div', {
+  }, [_vm._v("Select city")]), _vm._v(" "), _c('option', [_vm._v("Брест")]), _vm._v(" "), _c('option', [_vm._v("Витебск")]), _vm._v(" "), _c('option', [_vm._v("Гомель")]), _vm._v(" "), _c('option', [_vm._v("Гродно")]), _vm._v(" "), _c('option', [_vm._v("Минск")])])])]), _vm._v(" "), _c('BR'), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('tr', [_c('div', {
     staticClass: "password"
   }, [_c('input', {
     directives: [{
@@ -42907,7 +42965,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "isError"
     }],
     staticClass: "error_control"
-  }, [_vm._v("\n                          " + _vm._s(_vm.passwordMsg) + "\n                      ")])])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('tr', [_c('div', {
+  }, [_vm._v("\n                          " + _vm._s(_vm.passwordMsg) + "\n                      ")])])]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(6), _vm._v(" "), _c('tr', [_c('div', {
     staticClass: "password conf"
   }, [_c('input', {
     directives: [{
@@ -43010,6 +43068,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "lbl"
   }, [_c('p', [_vm._v("Email:")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('div', {
+    staticClass: "try"
+  }, [_c('label', {
+    staticClass: "lbl"
+  }, [_c('p', [_vm._v("Phone:")])])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "try"
