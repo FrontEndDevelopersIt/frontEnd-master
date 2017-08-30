@@ -2,15 +2,14 @@
 <template>
   <div class="">
   <div class="line">
-      <filtrationMini></filtrationMini>
+    <filtrationMini></filtrationMini>
   </div>
 <div class="mainPage" v-on:mouseover="hideProfile()">
-
   <div class="section_1">
     <filtration></filtration>
   </div>
-  <div class="section_2" >
-    <pagination v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
+  <div class="section_2" v-on:mouseover="hideProfile()" >
+    <pagination  v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
         <div class="vueloader" v-if="show">
           <VueLoader v-if="show" :type="this.cubes" :theme="this.theme"></VueLoader>
         </div>
@@ -18,7 +17,6 @@
     <modal v-if="showModal" @close="showModal = false"></modal>
     <div class="oops"><p  :style="notification" v-if="vacanciesPerPage.length===0">{{myResolvedValue}}</p> </div>
       <div class="vacancy" v-for="(vacancy, index) in vacanciesPerPage" >
-
           <div class="top_cont">
             <div class="square">
               <p>{{date(vacancy.date)}}</p>
@@ -60,9 +58,12 @@
             </div>
         </div>
           </div>
+            <div class="up" :style="styleObject" >
+            <back-top></back-top>
+          </div>
 
     <br>
-    <pagination v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
+    <pagination v-if="this.$store.state.totalPages != 1" v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
      </div>
   </div>
     </div>
@@ -70,6 +71,7 @@
 </template>
 
 <script>
+import BackTop from './BackTop.vue'
 import  VueLoader from '@imarcom/vue-loader'
 import pagination from './pagination.vue'
 import filtrationMini from './filtrationMini.vue'
@@ -78,6 +80,8 @@ import filtration from './filtration.vue'
 import modal from './modal.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
+
 export default {
   name: "mainPage",
   asyncComputed: {
@@ -98,7 +102,12 @@ export default {
       },
       show: null,
       cubes: "bounces",
-      theme: "dark"
+      theme: "dark",
+      scrolled: false,
+      styleObject: {
+          display: "none",
+          position: "fixed"
+      }
     }
   },
   components: {
@@ -108,6 +117,7 @@ export default {
     filtrationMini,
     modal,
      VueLoader,
+     BackTop
   },
 
   beforeRouteUpdate(to, from, next) {
@@ -131,6 +141,9 @@ export default {
           get() {
               return this.$store.state.showModal
           }
+    },
+    showModalSubscription(){
+      return this.$store.state.showModalSubscription
     }
     },
   methods: {
@@ -140,12 +153,12 @@ export default {
         this.$store.dispatch('getVacancies', 1)
         this.$router.push({path: '/1'})
       }
-      else if( page > 12 || page.length >= 3){
-          this.$router.push({path: '/error'})
+      if( page > this.$store.state.totalPages || page.length >= 3){
+          location.href = '/error';
       }
       else {
       this.$store.dispatch('getVacancies', page, limit)
-}
+    }
     },
     getLocation(city){
       this.$store.commit("filterIndicator", true)
@@ -160,6 +173,15 @@ export default {
       this.$router.push({name: 'page', params: {page: 1}});
       this.$store.dispatch('getVacancies')
     },
+    handleScroll() {
+  if(this.scrolled = window.scrollY > 300){
+    this.styleObject.display = 'block'
+  }
+  if(this.scrolled = window.scrollY < 300){
+    this.styleObject.display = 'none'
+  }
+
+},
 
     hideProfile() {
       this.$store.dispatch('hideProfile')
@@ -175,20 +197,21 @@ export default {
     },
     tokenRefresh(){
       this.$store.dispatch('refreshToken')
-    }
+    },
+
   },
   created() {
     this.getVacancies(this.$route.params.page, 1)
     this.$store.dispatch('tokenChecker')
     this.show = true
     if(this.$store.state.statisticSwitcher === true) {this.$store.dispatch('getStatistic')}
+     window.addEventListener('scroll', this.handleScroll);
 
 
   },
-  beforeUpdate(){
-
-
-  },
+  destroyed () {
+  window.removeEventListener('scroll', this.handleScroll);
+},
   updated(){
 this.show = false
   }
@@ -411,6 +434,10 @@ img {
   transition: none;
   color: #F57921;
   line-height: 15px;
+}
+
+.pro:hover i{
+  color: white;
 }
 
 .first_ex{
@@ -641,7 +668,6 @@ a:-webkit-any-link {
 }
 
 
-
 @media screen and (max-width: 1200px){
 .vacancy {
   max-width: 800px;
@@ -664,8 +690,11 @@ display: none;
   min-width: 100%;
 }
 .vacancy{
-  min-width: 100%;
+  min-width: 125%;
+  margin-left: 0px;
+
 }
+
 
 .line{
   display: block;
@@ -687,4 +716,23 @@ display: none;
   height: 100vh;
 }
 
+
+
+.line{
+  min-width: 100%;
+  display: none;
+}
+
+.top{
+    padding: 10px;
+    background: rgba(0, 153, 229, .7);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+}
+.up {
+  position: absolute;
+  top: 83%;
+  right: 3%;
+}
 </style>

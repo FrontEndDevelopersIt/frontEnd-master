@@ -1,24 +1,28 @@
 <template>
+  <div class="" v-on:mouseout="hideProfile()">
+    <modal v-if="showModalSettings" @close="showModalSettings = false"></modal>
   <div class="">
     <div class="left_div">
     </div>
-        <section class="divSettings">
+        <section class="divSettings" >
         <div class="container">
+
+
             <h1>Настройки</h1>
             <div class="box">
               <table>
                 <tr>
-                  <p v-if="!userInfo.phone">Вы не указали телефон</p>
+                  <p v-if="!userInfo.phone">Вы не указали номер телефона</p>
                   </tr>
               </table>
             </div>
             <div class="boxOfInputs">
                 <div class="inputs" @keyup.enter="updateUser(user)">
                     Ваше имя:<div><input class="inputsInSettings" type="text" v-model="user.name" ></div>
-                    Ваш номер:<div><input class="inputsInSettings" type="text" v-model="userInfo.phone" placeholder="Number"></div>
-                    Ваш город:<div><input class="inputsInSettings" type="text" v-model="userInfo.city" placeholder="City"></div>
-                    Пароль:<div><input class="inputsInSettings" type="password" v-model="user.password" placeholder="Password" ></div>
-                    Подтвердите пароль:<div><input class="inputsInSettings" type="password" v-model="user.password_confirmation" placeholder="Password confirmation" ></div>
+                    Ваш номер:<div><input class="inputsInSettings" type="text" v-model="user.phone"></div>
+                    Ваш город:<div><input class="inputsInSettings" type="text" v-model="user.city" ></div>
+                    Пароль:<div><input class="inputsInSettings" type="password" v-model="user.password" placeholder="Пароль" ></div>
+                    Подтвердите пароль:<div><input class="inputsInSettings" type="password" v-model="user.password_confirmation" placeholder="Подтверждение пароля" ></div>
                     <div class="text">
                       <p>Уведомлять вас о новых вакансиях по электронной почте?</p><input type="checkbox" name="" v-model="user.newsletter" >
                     </div>
@@ -26,16 +30,17 @@
                 <div></div>
             </div>
             <div id="confirm">
-                <button @click="updateUser(user)" id="buttonConfirm">Confirm settings</button>
+                <button @click="updateUser(user)" id="buttonConfirm">Подтвердить</button>
             </div>
             </div>
         </section>
     </div>
-
+  </div>
   </div>
 </template>
 
 <script>
+    import modal from './modal.vue'
     import myheader from './myheader.vue'
     export default {
         name: 'settings',
@@ -43,22 +48,34 @@
             return {
                 user: {
                     name: "",
-                    phone: "",
                     city: "",
                     phone: "",
                     password: "",
-                    password_confirmation: '',
+                    password_confirmation: "",
                     newsletter: false
-                }
-            }
+                },
+          }
 
         },
         computed: {
           userInfo(){
             return this.$store.state.userInfo
+          },
+          show(){
+            return this.$store.state.show
+          },
+          showModalSettings: {
+            set() {
+                    this.$store.commit('showModalSettings', false)
+                },
+                get() {
+                    return this.$store.state.showModalSettings
+                }
           }
+
         },
-        components:{myheader},
+
+        components:{myheader, modal},
         methods: {
             updateUser(){
                 this.$store.dispatch('UpdateUser', this.user);
@@ -66,12 +83,32 @@
             date(n) {
               return n.split(' ')[0]
             },
+            userInfoFunc(){
+              this.user.name = this.userInfo.name
+              this.user.phone = this.userInfo.phone
+              this.user.city = this.userInfo.city
+              this.user.password = this.userInfo.password
+              this.user.password_confirmation = this.userInfo.password
+
+            },
+            hideProfile(){
+                this.$store.dispatch('hideProfile')
+            },
         },
         created(){
-          if(this.$store.state.tokenPresence===true) {this.$store.dispatch('getUserInfo')}
-          if(this.$store.state.tokenPresence===false) {this.$router.push({path: '/singIn'})}
+          if(this.$store.state.tokenPresence===true) {
+            this.$store.dispatch('getUserInfo')
 
+          }
+          if(this.$store.state.tokenPresence===false) {this.$router.push({path: '/singIn'})}
+          if(this.$store.state.inputValue){ this.user.newsletter = true }
+        },
+
+        mounted(){
+          setTimeout(this.userInfoFunc(), 1000)
         }
+
+
     }
 </script>
 

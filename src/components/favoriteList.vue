@@ -1,9 +1,15 @@
 <template lang="html">
-  <div class="mainPage">
+  <div class="">
+    <div class="deleteAllFavoriteVacancyContainer">
+        <div class="deleteAllFavoriteVacancy" @click="deleteAllFavoriteVacancy()" v-if="favoriteVacanciesPerPage.length >= 1"><span>Очистить список <img src="img/ic_delete.png" alt=""></span></div>
+    </div>
 
+
+  <div class="mainPage">
 
   <div class="" v-on:mouseover="hideProfile()">
     <div class="oops" v-if="showError"><p  :style="notification">{{myResolvedValue}}</p> </div>
+    <div class="oops" v-if="showErrorButton"><p  :style="notification">{{myResolvedValue}}</p> </div>
     <div class="container">
       <div v-if="" :id=vacancy.id  class="vacancy" v-for="(vacancy, index) in favoriteVacanciesPerPage" v-show="vacancy.id">
         <router-link :to="{name: 'vacancy', params: {id: vacancy.id , index: index-1}}">
@@ -55,7 +61,7 @@
           </router-link>
           </div>
     </div>
-
+  </div>
 </div>
   </div>
 </template>
@@ -66,7 +72,6 @@
   import Vuex from 'vuex'
   import axios from 'axios'
   import VueAxios from 'vue-axios'
-
   Vue.use(Vuex)
   Vue.use(VueAxios, axios)
   var token = localStorage.getItem('JWT')
@@ -86,7 +91,22 @@ export default {
         height: "40px",
         padding: "10px",
         color: "black",
-      }
+      },
+      showErrorButton: false,
+      options:[
+              {
+                  id:'back-top-title',
+                  label:'BackTop回到顶部'
+              },
+              {
+                  id:'gai-shu',
+                  label:'概述'
+              },
+              {
+                  id:'dai-ma-shi-li',
+                  label:'代码示例'
+              }
+          ],
     }
   },
   asyncComputed: {
@@ -95,6 +115,9 @@ export default {
       setTimeout(() => resolve('Избранных вакансий не найдено...'), 1000)
     })
   }
+},
+components(){
+  VmBackTop
 },
   computed: {
     showError(){
@@ -115,6 +138,16 @@ export default {
          this.$store.dispatch('unFavorite', idVacancy)
        }
 }
+   },
+   deleteAllFavoriteVacancy(){
+     var x = this.favoriteVacanciesPerPage
+     for(var i=0; i< x.length; i++ ){
+         x[i].favorite = false
+         this.$store.dispatch('unFavorite', x[i].id)
+         x[i].id = false
+}
+
+  this.showErrorButton = true
    },
    getVacancies(){
      if (this.$store.state.tokenPresence === true) {
@@ -623,5 +656,47 @@ display: none;
   }
 }
 
+.mainPage{
+  height: 100%;
+  margin-bottom: 400px;
+}
+.deleteAllFavoriteVacancy{
+  background-color: #EF7F35;
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 160px;
+  height: 40px;
+  padding-left: 10px;
+  border-radius: 10px;
+  font-weight: 300;
+  margin-top: 10px;
 
+
+}
+.deleteAllFavoriteVacancy:hover{
+  transition: 0.25s;
+  filter: brightness(115%);
+}
+.deleteAllFavoriteVacancy:active{
+  filter: brightness(85%);
+  transform: translateY(-5px);
+}
+.deleteAllFavoriteVacancy img {
+  box-shadow: none;
+  width: 20px;
+  margin-top: -10px;
+  height: 30px;
+  margin-left: 5px;
+}
+.deleteAllFavoriteVacancy span{
+  display: flex;
+  padding-top: 10px;
+}
+.deleteAllFavoriteVacancyContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 </style>

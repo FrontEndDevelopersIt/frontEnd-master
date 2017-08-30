@@ -47,10 +47,10 @@
                             <p>Перейти на страницу вакансии</p>
                         </a>
                     </div>
-                        <div class="url fav" v-if="!switchButtonFavorite" @click="favorite(vacancyDetails.id)">
+                        <div class="url fav" v-if="!vacancyDetails.favorite" @click="favorite(vacancyDetails.id)">
                             <p>Добавить в избранное</p>
                         </div>
-                        <div v-if="switchButtonFavorite" class="url not" @click="unFavorite(vacancyDetails.id)">
+                        <div v-if="vacancyDetails.favorite" class="url not" @click="unFavorite(vacancyDetails.id)">
                             <p>Убрать из изранных</p>
                         </div>
                 </div>
@@ -136,13 +136,13 @@ export default {
                       this.$store.commit("showModal", true)
                   } else {
                       this.switchButtonFavorite = true
-                      this.vacancyDetails.ip = true
+                      this.vacancyDetails.favorite = true
                       this.$store.dispatch('favorite', favPost)
                 }
               },
                 unFavorite(favPost){
                   this.switchButtonFavorite = false
-                   this.vacancyDetails.ip = false
+                   this.vacancyDetails.favorite = false
                    this.$store.dispatch('unFavorite', favPost)
                 },
 

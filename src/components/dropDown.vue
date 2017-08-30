@@ -1,24 +1,29 @@
 <template>
     <div >
-      <div class="">
+<div class="">
+
+
         <div class="showButtonFlex" >
             <button id="showProfileButton" v-on:mouseover="showProfile()" >Профиль</button>
         </div>
         <div></div>
-        <div class="" >
 
         <div class="profileBox" >
             <transition name="fade">
-                <div class="profileFlex" v-if="show" >
-                    <router-link to="/settings"><button>Настройки</button>
+
+              <div class="" v-if="this.show" >
+                <div class="profileFlex"  >
+                    <router-link to="/settings"><button >Настройки</button>
                     </router-link>
                     <router-link to="/favoriteVacancies"><button>Избранное</button></router-link>
                     <router-link to="/" ><button @click="tokenRemove()">Выйти</button></router-link>
                 </div>
+                </div>
             </transition>
-        </div>
+
           </div>
     </div>
+
         </div>
 </template>
 
@@ -62,13 +67,9 @@
       border-radius: 5px;
       color: snow;
       position: relative;
-
       height: 100%;
       font-size: 23px;
         font-weight: 300;
-
-
-
     }
 
 
@@ -106,5 +107,9 @@
         opacity: 0
     }
 
-
+.out {
+  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+}
 </style>

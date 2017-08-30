@@ -6,12 +6,31 @@
         <div class="filt">
             <div class="filt_title">
             </div>
+
             <div class="filt_by_city">
                 <p>Город:</p>
                 <div class="bloc">
                    <router-link :to= "{name: 'page', params: {page: 1}}">
                     <select type="text" name="city" class="select_by_city" size="6" v-model="city"  v-on:click="cityFunc(city)">
-                        <option value="Брест"> Брест ({{this.brest}})<img src="/img/right.png"></option>
+                            <!-- <option v-for="(obj, key) in statisticMassiveCity" :value="key">{{key}} ({{obj}})</option> -->
+                            <option value="Минск" > Минск ({{this.statisticMassiveCity[0]}})</option>
+                            <option value="Витебск"> Витебск ({{this.statisticMassiveCity[1]}})</option>
+                            <option value="Гомель"> Гомель({{this.statisticMassiveCity[2]}})</option>
+                            <option value="Брест"> Брест ({{this.statisticMassiveCity[3]}})</option>
+                            <option value="Лесной"> Лесной ({{this.statisticMassiveCity[4]}})</option>
+                            <option value="Новополоцк"> Новополоцк ({{this.statisticMassiveCity[5]}})</option>
+                            <option value="Борисов"> Борисов ({{this.statisticMassiveCity[6]}})</option>
+                    </select>
+                  </router-link>
+                </div>
+            </div>
+
+            <!-- <div class="filt_by_city">
+                <p>Город:</p>
+                <div class="bloc">
+                   <router-link :to= "{name: 'page', params: {page: 1}}">
+                    <select type="text" name="city" class="select_by_city" size="6" v-model="city"  v-on:click="cityFunc(city)">
+                        <option value="Брест"> Брест ({{this.brest}})</option>
                         <option value="Витебск"> Витебск ({{this.vitebsk}})</option>
                         <option value="Гомель"> Гомель ({{this.gomel}})</option>
                         <option value="Гродно"> Гродно ({{this.grodno}})</option>
@@ -19,7 +38,8 @@
                     </select>
                   </router-link>
                 </div>
-            </div>
+            </div> -->
+
             </div>
             <div class="filt">
             <div class="filt_by_employment">
@@ -27,10 +47,10 @@
                 <div class="bloc">
                   <router-link :to= "{name: 'page', params: {page: 1}}">
                     <select type="text" name="employment" class="select_by_employment" size="6" v-model="employment" v-on:click="employmentFunc(employment)" >
-                        <option value="Полная занятость"> Полная занятость</option>
-                        <option value="Частичная занятость"> Частичная занятость</option>
-                        <option value="Проектная работа"> Проектная работа</option>
-                        <option value="Стажировка"> Стажировка</option>
+                        <option value="Полная занятость, полный день" > Полная занятость ({{this.statisticMassiveEmployment[0]}})</option>
+                        <option value="Частичная занятость, гибкий график"> Частичная занятость ({{this.statisticMassiveEmployment[7]}})</option>
+                        <option value="Проектная/Временная работа, полный день"> Проектная работа ({{this.statisticMassiveEmployment[13]}})</option>
+                        <option value="Стажировка, полный день"> Стажировка ({{this.statisticMassiveEmployment[5]}})</option>
                     </select>
                   </router-link>
                 </div>
@@ -39,12 +59,12 @@
         <div class="filt statistics">
             <span>Всего вакансий:</span> <b>{{this.$store.state.totalVacancies}}</b>
             <br>
-        <span class="on_Page">На странице:</span>
+        <!-- <span class="on_Page">На странице:</span>
     <select class="select_count_page" v-model="pageValue" v-on:change="vacancyCountSwitcher(pageValue)">
         <option>10</option>
         <option>30</option>
         <option>50</option>
-      </select>
+      </select> -->
         </div>
 
 
@@ -66,11 +86,10 @@ export default {
             id: null,
             cityMassive: [],
             employmentMassive: [],
-            brest: '',
-            grodno: "0",
-            vitebsk: '',
-            gomel: '',
-            minsk: '',
+            statisticMassiveCity: [],
+            statisticMassiveEmployment: [],
+
+
         }
     },
     computed: {
@@ -123,6 +142,21 @@ export default {
                     this.cityMassive.push(city)
                 }
             },
+            getStatistic(){
+              var x = localStorage.getItem("Statistic")
+                var y = JSON.parse(x)
+                
+                for (var x in y.employment) {
+                  var z = y.employment[x]
+                  this.statisticMassiveEmployment.push(z)
+                }
+                for (var x in y.city) {
+                  var a = y.city[x]
+                  this.statisticMassiveCity.push(a)
+                }
+                console.log(this.statisticMassiveEmployment)
+
+            },
 
             employmentFunc(employment) {
                 if (this.$store.state.employment == this.employmentMassive[0]) {
@@ -146,11 +180,8 @@ export default {
 
     },
     mounted: function(){
-    this.brest = localStorage.getItem('Брест')
-    this.vitebsk = localStorage.getItem('Витебск')
-    this.minsk = localStorage.getItem('Минск')
-    this.gomel = localStorage.getItem('Гомель')
-    this.grodno = localStorage.getItem('Гродно')
+    this.getStatistic()
+
 
 
     }
@@ -223,7 +254,7 @@ select option:checked {
 }
 
 .select_by_city {
-    height: 190px;
+    height: 260px;
 }
 
 
@@ -259,7 +290,7 @@ option {
     margin-bottom: 2px;
     color: black;
     font-weight: 300;
-    font-size: 15px;
+    font-size: 14px;
     border-bottom: 4px solid #f5f1f1;
     margin-left: 4px;
     padding: 6px;

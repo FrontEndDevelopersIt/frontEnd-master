@@ -11,7 +11,6 @@ Vue.use(VueRouter)
 var token = localStorage.getItem('JWT')
 axios.defaults.headers.common['Authorization'] = "Bearer " + token
 axios.defaults.headers.common['X-CSRF-Token'] = token
-axios.defaults.headers.common['Content-type']= 'application/x-www-form-urlencoded'
 
 
 //Import modules
@@ -23,7 +22,7 @@ state: {
         vacancyDetails: [],
         vacanciesPerPage: [],
         pageRange: 2,
-        totalPages: null,
+        totalPages: 1,
         perPage: 10,
         totalVacancies: 10,
         //for map in vacancyDetails start
@@ -45,7 +44,10 @@ state: {
         userInfo: [],
         showModal: false,  //modal window
         helloAutorization: "",
-        statisticSwitcher: true
+        statisticSwitcher: true,
+        showModalSettings: false,  //settings
+        showModalSubscription: false, //subscription footer
+        inputValue: null
   },
      mutations: {
          vacanciesPerPage(state, {item}) {
@@ -105,9 +107,15 @@ state: {
         favoriteVacanciesDelete(state, item){
           state.favoriteVacanciesPerPage.push(item)
         },
-        //user Info
+        //user Info, Settings
         userInfo(state, {item}){
           state.userInfo = item
+        },
+        inputValue(state, item){
+          state.inputValue = item
+        },
+        showModalSettings(state, {item}){
+          state.showModalSettings = item
         },
         //hello from header
         helloAutorization(state, {item}){
@@ -116,7 +124,11 @@ state: {
         //statistic city
         statisticSwitcher(state, {item}){
           state.statisticSwitcher = item
-        }
+        },
+        //footer subscription
+        showModalSubscription(state, item){
+          state.showModalSubscription = item
+        },
      },
      getters: {
          city (state) {
@@ -136,7 +148,7 @@ state: {
                       city: store.state.city,
                       employment: store.state.employment,
                       page: page,
-                      limit: store.state.perPage,
+                      limit: 10,
                       search: store.state.searchQuery,
                     }
                   }
@@ -227,6 +239,7 @@ state: {
                 id: id
             }
       axios.post(favorite, options).then((response) => {
+        console.log(response)
                   }, (err) => {
                   console.log(err)
               })
@@ -274,33 +287,29 @@ state: {
               })
       },
       //Profile Change
-      UpdateUser: function ({ commit }, user) {
-            var options = {
-                params: {
-                  name: user.name,
-                  password: user.password,
-                  password_confirmation: user.password_confirmation,
-                  city: user.city,
-                  phone: user.phone,
-                  newsletter: user.newsletter
-                },
-                }
-              axios.patch(userURL, options).then((response) => {
-                    console.log(response)
-                  }, (err) => {
-                      console.log(err)
-              })
-        },
+      UpdateUser({commit}, user) {
+        console.log(user)
+        var options = {
+                name: user.name,
+                city: user.city,
+                phone: user.phone,
+                newsletter: user.newsletter,
+                password_confirmation: user.password_confirmation,
+                password: user.password
 
+            }
+      axios.patch(userURL, options).then((response) => {
+            commit('showModalSettings', {item: true})
+                  }, (err) => {
+                  location.href = '/error';
+              })
+      },
 
         getStatistic: function ({ commit }) {
                 axios.get(statistic).then((response) => {
-                    var x = response.data
-                    for ( var key in x){
-                      localStorage.setItem(key, x[key])
-                    }
+                    var x = JSON.stringify(response.data)
+                      localStorage.setItem("Statistic",x)
                       commit('statisticSwitcher', {item: false})
-
                     }, (err) => {
                         console.log(err)
                 })

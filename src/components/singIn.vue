@@ -7,13 +7,13 @@
                     <div class="auth-form-body">
 
                         <div class="try">
-                            <h2>Sign In</h2>
+                            <h2>Вход</h2>
                         </div>
                         <br>
                         <table class="singin-table">
                             <tr>
                                 <td>
-                                    <label for="login_field">Email address:</label>
+                                    <label for="login_field">Email-адрес:</label>
                                 </td>
                             </tr>
                             <tr><input v-model="user.mail" autofocus="autofocus" class="form-control input-block" id="login_field" name="login" tabindex="1" type="email"/></tr>
@@ -21,7 +21,7 @@
                             <br>
                             <tr>
                                 <td>
-                                    <label for="password">Password: <router-link to="/resetPassword"> <a class="label-link">Forgot password?</a></router-link></label></td>
+                                    <label for="password">Пароль: <router-link to="/resetPassword"> <a class="label-link">Забыли пароль?</a></router-link></label></td>
                             </tr>
                             <tr><input v-model="user.password" class="form-control form-control input-block" id="password" name="password" tabindex="2" type="password"/></tr>
                             <span class="error_control" v-show="isErrorPswd">{{ passwordMsg }}</span>
@@ -29,10 +29,10 @@
                             <br>
                             <tr>
                                 <input class="check" type="checkbox" v-model="user.remember">
-                                <label @click.prevent="user.remember = !user.remember">Remember me</label>
+                                <label @click.prevent="user.remember = !user.remember">Запомнить меня</label>
                             </tr>
                             <tr class='tr'>
-                                <input class="btn" data-disable-with="Signing in" name="commit" tabindex="2" type="submit" value="Sign in" @click.prevent="onSingIn"/>
+                                <input class="btn" data-disable-with="Signing in" name="commit" tabindex="2" type="submit" value="Войти" @click.prevent="onSingIn"/>
                             </tr>
                           <div class="msg_cont">
                             <span id="msg"></span>
@@ -94,7 +94,7 @@
                     remember: this.user.remember
                 };
                 if (this.user.mail === '' || this.user.password === '') {
-                    document.getElementById('msg').innerHTML = 'All fields are required!!!';
+                    document.getElementById('msg').innerHTML = 'Все поля обязательны для заполнения!!!';
                 }
                 else {
                     request.postData(url, options, '/', function (msg) {

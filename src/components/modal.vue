@@ -1,9 +1,11 @@
 <template >
-  <transition name="modal">
+  <div class="">
+
+
+  <transition name="modal" v-if="showModal">
   <div class="modal-mask"  @click="$emit('close')">
     <div class="modal-wrapper">
       <div class="modal-container">
-
         <div class="modal-header">
           <slot name="header">
            <p>Для добавления вакансии в избранное вам необходимо <br> <router-link to="/singIn"><b>войти</b></router-link> или <router-link to="/registration"><b>зарегистрироваться</b></router-link></p>
@@ -11,24 +13,76 @@
            </div>
           </slot>
         </div>
-        <button class="modal-default-button" @click="$emit('close')">
+        <button class="modal-default-button" >
           OK
         </button>
       </div>
     </div>
   </div>
 </transition>
+
+<transition name="modal" v-if="showModalSettings">
+<div class="modal-mask"  @click="$emit('close')">
+  <div class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <slot name="header">
+         <p>Настройки успешно изменены</p>
+         <div class="button">
+         </div>
+        </slot>
+      </div>
+      <button class="modal-default-button" >
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+</transition>
+
+
+<transition name="modal" v-if="showModalSubscription">
+<div class="modal-mask"  @click="$emit('close')">
+  <div class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <slot name="header">
+         <p>Для подписки на рассылку вам необходимо <br> <router-link to="/singIn"><b>войти</b></router-link> или <router-link to="/registration"><b>зарегистрироваться</b></router-link></p>
+         <div class="button">
+         </div>
+        </slot>
+      </div>
+      <button class="modal-default-button" >
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+</transition>
+
+
+
+  </div>
 </template>
 
 <script>
 export default {
   name: "modal",
-
+  computed: {
+    showModalSettings() {
+      return this.$store.state.showModalSettings
+    },
+    showModal(){
+      return this.$store.state.showModal
+    },
+    showModalSubscription(){
+      return this.$store.state.showModalSubscription
+  }
 }
-
+}
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 
 .modal-mask {
   position: fixed;

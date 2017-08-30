@@ -5,13 +5,13 @@
         <div class="registration_cont">
             <br>
             <div class="try">
-                <h2>Registration</h2>
+                <h2>Регистрация </h2>
             </div>
             <br>
             <table>
                 <tr>
                     <div class="try">
-                        <label class="lbl"><p>NickName:</p></label></div>
+                        <label class="lbl"><p>Имя пользователя:</p></label></div>
 
                 </tr>
                 <tr>
@@ -36,7 +36,7 @@
                 <br>
                 <tr>
                     <div class="try">
-                        <label class="lbl"><p>Phone:</p></label>
+                        <label class="lbl"><p>Мобильный телефон:</p></label>
                     </div>
                 </tr>
                 <tr>
@@ -49,11 +49,11 @@
 
                 <tr>
                     <div class="try">
-                        <label class="lbl"><p>City:</p></label>
+                        <label class="lbl"><p>Город:</p></label>
                     </div>
                     <div class="select">
                         <select name="city" v-model="newUser.city">
-                            <option value="" disabled selected hidden>Select city</option>
+                            <option value="" disabled selected hidden>Выберите город</option>
                             <option>Брест</option>
                             <option>Витебск</option>
                             <option>Гомель</option>
@@ -65,7 +65,7 @@
                 <BR></BR>
                 <tr>
                     <div class="try">
-                        <label class="lbl"><p>Password:</p></label>
+                        <label class="lbl"><p>Пароль:</p></label>
                     </div>
                 </tr>
                 <tr>
@@ -81,7 +81,7 @@
                 <br>
                 <tr>
                     <div class="try">
-                        <label class="lbl"><p>Confirm password:</p></label>
+                        <label class="lbl"><p>Подтверждение пароля:</p></label>
                     </div>
                 </tr>
                 <tr>
@@ -98,14 +98,14 @@
 
                 <tr class="checkbox_tr">
                     <div class="checkbox">
-                        <p>I want to receive newsletters about new vacancies</p><input type="checkbox" class = "chbox" id="chbox" v-model="newUser.mailing">
+                        <p>Я хочу получить рассылку о новых вакансиях</p><input type="checkbox" class = "chbox" id="chbox" v-model="newUser.mailing">
                     </div>
                 </tr>
 
                 <br>
                 <tr>
                     <button :class="{active: disableBtn}" :disabled="disableBtn" @click.prevent="onSignUp">
-                        SING UP
+                        Зарегестрироваться
                     </button>
                 </tr>
                 <span id="msg"></span>
@@ -154,7 +154,7 @@
                 if(validationService.requiredField(value)){
                     this.userMsg = '';
                 }else{
-                    this.userMsg = 'Field is required';
+                    this.userMsg = 'Поле обязательно';
                 }
             },
             'newUser.email': function(value) {
@@ -165,7 +165,7 @@
               console.log(value);
               if(!validationService.testPhone(value))
               {
-                  this.phoneMsg = 'Invalid phone number';
+                  this.phoneMsg = 'Неверный формат';
                   console.log(this.phoneMsg);
               }
               else{
@@ -197,7 +197,7 @@
                     if(!validationService.checkPasswordsMatch(this.newUser.password, this.newUser.password2)) {
                         this.disableBtn = false;
                     }else {
-                        this.passwordMsg2 = 'Passwords are not match';
+                        this.passwordMsg2 = 'Пароли не совпадают';
                         this.disableBtn = true;
                     }
                 }

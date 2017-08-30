@@ -11,10 +11,13 @@
             </div>
 
             <div class="greetings" >
-              <p class="text" v-show="!this.$store.state.tokenPresence">&#8222;Найти работу - легко!&#8221; </p>
-              <p  class="text2" v-show="this.$store.state.tokenPresence">{{this.$store.state.helloAutorization  }}</p><p class="text3" v-show="this.$store.state.tokenPresence"><router-link to="/settings">  {{ this.$store.state.userInfo.name}}</router-link></p>
+              <div class="empty">
+              </div><div class="text">
+              <p >&#171;Найти работу - легко!&#187; </p>
+              </div>
             </div>
             <div class="someBlock">
+              <p class="text3" v-show="this.$store.state.tokenPresence"><router-link to="/settings">  {{ this.$store.state.userInfo.name}}</router-link></p>
                 <dropDown v-if="this.$store.state.tokenPresence"></dropDown>
                 <div class="" v-if="this.$store.state.tokenPresence==false">
                 <router-link to="/singIn">
@@ -59,19 +62,6 @@
               </social-sharing>
             </div>
     </div>
-
-    <!-- <div class="div">
-      <div class="element">
-        <div class="line bottom">
-            <div class="line_bottom_container">
-              <input type="search" name="" v-model="searchQuery" placeholder="Введите текст" @keyup.enter="searchActivator()">
-              <button type="button" name="button" @click="searchActivator()"><p>Найти</p></button>
-            </div>
-            <div class="icon_bar">
-            </div>
-    </div>
-      </div>
-    </div> -->
 
     </div>
 </template>
@@ -125,14 +115,6 @@ export default {
   },
 
   watch: {
-    'searchQuery'(value){
-      if (value.length > 3){
-        this.show = true
-      }
-      if (value.length < 3){
-        this.show = false
-      }
-    }
   },
   created(){
       this.$store.dispatch('tokenChecker')
@@ -247,7 +229,7 @@ export default {
         margin-left: 10px;
         line-height: 20px;
         background-color: #ef7f35;
-        padding: .5em 1.3em;
+        padding: .3em 1.3em;
         border: none!important;
         border-style: none;
         border-radius: 5px;
@@ -284,6 +266,7 @@ export default {
       cursor: pointer;
       font-size: 23px;
         font-weight: 300;
+
     }
 
     .greetings p:first-child{
@@ -446,11 +429,7 @@ button p{
   height: 20px;
 }
 
-.text2{
-margin-right: 10px;
-margin-left: 180%;
 
-}
 @media (max-width: 1500px){
 .text2 {
   margin-left: 155%;
@@ -476,17 +455,23 @@ margin-left: 180%;
 }
 
 }
-.text{
-  padding-left: 35%;
-}
+
 
 .text3 a{
   border-bottom: 2px dashed white;
   display: inline;
+float: right;
+text-align: right;
+  white-space: nowrap;
+  color: white;
+  font-size: 22px;
+  font-weight: 300;
+  margin-right: 15px;
 }
 .img {
    position:relative;
    z-index: 99;
+
 
 }
 .line_bottom{
@@ -520,4 +505,14 @@ margin-left: 180%;
     color: white;
 }
 
+.greetings .text {
+  width: 65%;
+  text-align: center;
+  font-weight: 300;
+  color: black;
+}
+
+.empty{
+  width: 35%;
+}
 </style>

@@ -4,16 +4,16 @@
 
   <div class="label">
     <div class="container">
-      <h1>Reset your password</h1>
+      <h1>Восстановление пароля</h1>
     <div class="auth-form-body mt-3">
       <tr>
         <td>
-        <label for="emailField">Enter your email address and we will send you a link to reset your password.</label>
+        <label for="emailField">Введите свой email-адрес и мы вышлем вам ссылку для смены пароля.</label>
         </td>
       </tr>
       <tr>
         <td>
-          <label for="login_field">Email address:</label>
+          <label for="login_field">Email-адрес:</label>
         </td>
       </tr>
       <tr><input v-model="user.mail" autofocus="autofocus" class="form-control input-block" id="login_field" name="login" tabindex="1" type="email"/></tr>
@@ -24,7 +24,7 @@
 
           </div>    <router-link to="/changePassword">
           <button class='btn' @click.prevent="onReset">
-             Reset password
+             Отправить
           </button>
       <span class="" v-show="showMsg" >{{ btnMsg }}</span>
            </router-link>
@@ -78,14 +78,14 @@
               const defaultUrl = '/resetPassword';
               if(this.user.mail !== '')
               {
-                  request.getData(url, options,defaultUrl, function (msg) {
+                  request.getData(url, options, function (msg) {
                       console.log(msg);
                       document.getElementById('msg').innerHTML = msg;
                       console.log(document.getElementById('msg').innerHTML);
                   });
                }
               else{
-                  document.getElementById('msg').innerHTML = 'Field is required!!!';
+                  document.getElementById('msg').innerHTML = 'Поле обязательно!!!';
               }
           }
       }
@@ -241,7 +241,7 @@
   }
 
   .msg_cont{
-    display: block;
+    display: flex;
     width: 100%;
     margin-bottom: 0px;
     padding-bottom: 0px;
@@ -251,7 +251,7 @@
     padding-top: 20px;
     display: block;
     margin: auto;
-    width: 25%;
+
 
   }
 </style>

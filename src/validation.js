@@ -18,10 +18,10 @@
                 display = '';
                 break;
             case 1:
-                display = 'Keep going - just need ' + sum + ' more character.';
+                display = 'Продолжайте печатать - нужно еще ' + sum + ' символов.';
                 break;
             default:
-                display = 'Keep going - just need ' + sum + ' more characters';
+                display = 'Продолжайте печатать - нужно еще ' + sum + ' символов';
         }
         if (length >= total) {
             msg = '';
@@ -44,10 +44,10 @@
     function CheckEmail(email) {
         let emailMsg = '';
         if (!requiredField(email)) {
-            emailMsg = 'Field is required';
+            emailMsg = 'Поле обязательно';
         } else {
             if (!validateEmail(email)) {
-                emailMsg = 'Keep typing...waiting for a valid email'
+                emailMsg = 'Продолжайте печатать ... ожидается действительный email-адрес'
             } else {
                 emailMsg = '';
             }
@@ -63,7 +63,7 @@
         if (requiredField(password)){
             passwordMsg = checkPasswordLength(password,0,6);
         }else{
-            passwordMsg = 'Field is required';
+            passwordMsg = 'Поле обязательно';
         }
         return passwordMsg;
     }

@@ -271,9 +271,19 @@ export default {
 
     @media (max-width: 1200px){
       .pagination_mid {
-        min-width: 400px;
-        max-width: 400px;
+        min-width: 600px;
+        max-width: 600px;
         margin-left: 50px;
+      }
+      a {
+        width: 35px;
+      }
+      .wrap_a {
+        width: 35px;
+
+      }
+      .pagination{
+        margin-left:  45px;
       }
     }
     @media only screen and (max-width: 800px) {

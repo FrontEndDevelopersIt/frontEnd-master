@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <title>Vue</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Spider Grodno</title>
+    <link rel="icon" href="/img/logo.jpeg">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.css" rel="stylesheet">
@@ -17,6 +17,7 @@
       </div>
 <myfooter></myfooter>
     </div>
+
     <script src="/dist/build.js"></script>
 </body>
 <style>
@@ -40,11 +41,31 @@
   }
 }
 
+@media screen and (max-width: 900px){
+.middle_container{
+  margin-left: 0%;
+  margin-right: 0%;
+}
+}
+
 .icon_bar img{
   width: 30px;
   vertical-align: bottom;
   display: inline;
   margin-bottom: 3px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.icon_bar img:hover {
+  opacity: 1;
+}
+
+.middle_container{
+  height: 90%;
+}
+
+.section2 {
+
 }
     </style>
 

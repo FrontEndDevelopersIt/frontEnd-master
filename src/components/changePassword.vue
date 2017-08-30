@@ -1,7 +1,5 @@
 <template>
   <div class="frame" >
-
-
   <div class="label">
     <div class="container">
         <div class="try">
@@ -12,24 +10,17 @@
           <span v-show="isError" >{{ emailMsg }}</span>
         </div>
         <div class="try">
-          <label class="lbl"><p>Password:</p></label>
+          <label class="lbl"><p>Новый пароль:</p></label>
         </div>
-
-
         <div class="password">
           <input type="password" name="Password" v-model="user.password" placeholder="Password" maxlength="16" >
         </div>
         <span class="error_control" v-show="isError">
           {{ passwordMsg }}
         </span>
-
-
-
         <div class="try">
-          <label class="lbl"><p>Confirm password:</p></label>
+          <label class="lbl"><p>Подтверждение пароля:</p></label>
         </div>
-
-
         <div class="password conf">
           <input type="password" name="Password2" v-model="user.password2" placeholder="Repeat password" maxlength="16">
           <br>
@@ -37,17 +28,14 @@
             {{ passwordMsg2 }}
           </span>
         </div>
-
         <router-link to="/singIn">
         <button :class="{active: disableBtn}" :disabled="disableBtn" @click.prevent="onReset()">
-          Reset
+          Изменить пароль
         </button>
         </router-link>
         <div class="msg_cont">
           <span id="msg"></span>
         </div>
-
-
     </div>
   </div>
   </div>
@@ -84,6 +72,7 @@
             'user.email': function (value) {
                 console.log(value);
                 this.emailMsg = validationService.CheckEmail(value);
+                console.log(this.emailMsg)
             },
             'user.password': function (value) {
                 console.log(value);
@@ -308,7 +297,7 @@
   }
 
   .msg_cont{
-    display: block;
+    display: flex;
     width: 100%;
     margin-bottom: 0px;
     padding-bottom: 0px;
@@ -318,7 +307,7 @@
     padding-top: 20px;
     display: block;
     margin: auto;
-    width: 25%;
+
 
   }
 
