@@ -96,13 +96,17 @@
                 <br>
                 <br>
 
-                <tr class="checkbox_tr">
-                    <div class="checkbox">
-                        <p>Я хочу получить рассылку о новых вакансиях</p><input type="checkbox" class = "chbox" id="chbox" v-model="newUser.mailing">
-                    </div>
-                </tr>
+                <!--<tr class="checkbox_tr">-->
+                    <!--<div class="checkbox">-->
+                        <!--<p>Я хочу получить рассылку о новых вакансиях</p><input type="checkbox" class = "chbox" id="chbox" v-model="newUser.mailing">-->
+                    <!--</div>-->
+                <!--</tr>-->
 
                 <br>
+                <tr>
+                    <input class="check" type="checkbox" v-model="newUser.mailing">
+                    <label @click.prevent="newUser.mailing = !newUser.mailing">Я хочу получить рассылку о новых вакансиях</label>
+                </tr>
                 <tr>
                     <button :class="{active: disableBtn}" :disabled="disableBtn" @click.prevent="onSignUp">
                         Зарегестрироваться
@@ -158,7 +162,6 @@
                 }
             },
             'newUser.email': function(value) {
-                console.log(value);
                 this.emailMsg = validationService.CheckEmail(value);
             },
             'newUser.phone': function (value) {
@@ -166,14 +169,12 @@
               if(!validationService.testPhone(value))
               {
                   this.phoneMsg = 'Неверный формат';
-                  console.log(this.phoneMsg);
               }
               else{
                   this.phoneMsg = '';
               }
             },
             'newUser.password': function (value) {
-                console.log(value);
                 this.passwordMsg = validationService.CheckPswd(value);
                 if(this.passwordMsg === '')
                 {
@@ -187,10 +188,8 @@
                 else{
                     this.disableBtn = true;
                 }
-                console.log(this.disableBtn);
             },
             'newUser.password2': function (value) {
-                console.log(value);
                 this.passwordMsg2 = validationService.CheckPswd(value);
                 if(this.passwordMsg2 === '')
                 {
@@ -204,7 +203,6 @@
                 else{
                     this.disableBtn = true;
                 }
-                console.log(this.disableBtn);
             }
         },
 
@@ -225,11 +223,12 @@
                     console.log('name : ', this.newUser.name,' email : ', this.newUser.email,' city : ', this.newUser.city,' passsword : ', this.newUser.password,' mailing : ',this.newUser.mailing );
                     request.postData(url, options, defaultUrl, function (msg) {
                         document.getElementById('msg').innerHTML = msg;
+                        console.log(msg);
                         console.log(document.getElementById('msg').innerHTML);
                     });
                 }
                 else{
-                    document.getElementById('msg').innerHTML = 'Не все поля заполнены!!! ';
+                    document.getElementById('msg').innerHTML = 'Не все поля заполнены!!!';
                 }
             }
         }
@@ -293,7 +292,17 @@
         margin-top: 0px;
     }
 
+    .check{
+        width: 14px;
+        vertical-align: bottom;
+        margin-bottom: 15px;
+        border-radius: 0;
+        opacity: 1!important;
+        background-color: none;
+        box-shadow: none;
 
+
+    }
 
     select {
         width: 250px;
@@ -327,17 +336,6 @@
 
     .try{
         text-align: left;
-    }
-
-    .checkbox{
-        display: block;
-        margin-bottom: 10px;
-        width: 480px;
-        padding-bottom: 10px;
-        vertical-align: top;
-        position: relative;
-
-
     }
 
     .try{
@@ -402,14 +400,6 @@
         float: left;
     }
 
-    .checkbox {
-        max-width: 360px;
-        text-align: left;
-        margin: auto;
-        margin-top: 25px;
-
-
-    }
     .checkbox input {
         width: 14px;
         vertical-align: bottom;
@@ -500,5 +490,9 @@
     #msg {
       padding-top: 10px;
       position: relative;
+    }
+
+    label{
+        color: white;
     }
 </style>

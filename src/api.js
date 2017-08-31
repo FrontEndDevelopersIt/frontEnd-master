@@ -38,7 +38,6 @@ function postData(url, params, defaultUrl, callback) {
                 } else {
                     msg = Translater(error.response.data.errors.detail.email[0]);
                 }
-                console.log(msg, error.response.data.errors.detail.email[0]);
                 break;
             case(500) :
                 msg = Translater(error.response.data.errors.detail);
@@ -79,7 +78,6 @@ function getData(url, params, callback){
                 msg = Translater(error.response.data.errors.detail);
                 break;
             case(404) :
-                // location.href = '/error';
                 msg = Translater(error.response.data.error.title)
                 break;
             case(422) :
@@ -171,7 +169,7 @@ function Translater(response) {
             msg = 'Неправильный email-адрес или пароль.';
             break;
         case('The email has already been taken.'):
-            msg = 'Такой email-адрес уже существует.'; console.log(msg);
+            msg = 'Такой email-адрес уже существует.';
             break;
         case('The phone has already been taken.'):
             msg = 'Телефон уже сущевствует.';
@@ -186,7 +184,7 @@ function Translater(response) {
             msg = 'Недействительный email-адрес или ссылка';
             break;
         case('Account was not activated'):
-            msg = 'Аккаунт не активирован'; console.log(msg);
+            msg = 'Аккаунт не активирован';
             break;
         default: msg = 'Упс... что то пошло не так.'
     }

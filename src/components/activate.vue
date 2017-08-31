@@ -28,7 +28,6 @@
               let token = this.getTokenFromLink();
               let str = token.replace(/[#]/g, '/')
               const url = 'http://api.spidergrodno.tk/api/user'+ str;
-              console.log(this.$route.hash.replace(/[#]/g, '/'));
               request.getData(url, null, function (msg) {
                   document.getElementById('activate').innerHTML = msg;
 

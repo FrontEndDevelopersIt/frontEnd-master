@@ -70,12 +70,9 @@
 
         watch: {
             'user.email': function (value) {
-                console.log(value);
                 this.emailMsg = validationService.CheckEmail(value);
-                console.log(this.emailMsg)
             },
             'user.password': function (value) {
-                console.log(value);
                 this.passwordMsg = validationService.CheckPswd(value);
                 if(this.passwordMsg === '')
                 {
@@ -89,10 +86,8 @@
                 else{
                     this.disableBtn = true;
                 }
-                console.log(this.disableBtn);
             },
             'user.password2': function (value) {
-                console.log(value);
                 this.passwordMsg2 = validationService.CheckPswd(value);
                 if(this.passwordMsg2 === '')
                 {
@@ -106,7 +101,6 @@
                 else{
                     this.disableBtn = true;
                 }
-                console.log(this.disableBtn);
             }
         },
 
@@ -114,7 +108,6 @@
             onReset(){
                 const url = 'http://api.spidergrodno.tk/api/password';
                 let token = this.getToken().replace(/[#]/g, '');
-                console.log(token, 52163511651);
                 const params =
                     {
                         token: token,
@@ -132,7 +125,6 @@
                 else{
                     document.getElementById('msg').innerHTML = 'something wrong!!!';
                 }
-                console.log(document.location.href);
             },
 
             getToken()

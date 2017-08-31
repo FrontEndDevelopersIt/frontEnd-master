@@ -15,7 +15,7 @@
                             <!-- <option v-for="(obj, key) in statisticMassiveCity" :value="key">{{key}} ({{obj}})</option> -->
                             <option value="Минск" > Минск ({{this.statisticMassiveCity[0]}})</option>
                             <option value="Витебск"> Витебск ({{this.statisticMassiveCity[1]}})</option>
-                            <option value="Гомель"> Гомель({{this.statisticMassiveCity[2]}})</option>
+                            <option value="Гомель"> Гомель ({{this.statisticMassiveCity[2]}})</option>
                             <option value="Брест"> Брест ({{this.statisticMassiveCity[3]}})</option>
                             <option value="Лесной"> Лесной ({{this.statisticMassiveCity[4]}})</option>
                             <option value="Новополоцк"> Новополоцк ({{this.statisticMassiveCity[5]}})</option>
@@ -145,7 +145,7 @@ export default {
             getStatistic(){
               var x = localStorage.getItem("Statistic")
                 var y = JSON.parse(x)
-                
+
                 for (var x in y.employment) {
                   var z = y.employment[x]
                   this.statisticMassiveEmployment.push(z)

@@ -286,12 +286,7 @@ export default {
         margin-left:  45px;
       }
     }
-    @media only screen and (max-width: 800px) {
-      .pagination_mid{
-        color: red;
-        background-color: red;
-      }
-    }
+
 
 
 

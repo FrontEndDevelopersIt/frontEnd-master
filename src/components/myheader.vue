@@ -263,7 +263,6 @@ export default {
       justify-content: center;
       width: 50%;
       color: white;
-      cursor: pointer;
       font-size: 23px;
         font-weight: 300;
 
@@ -452,6 +451,11 @@ button p{
 @media (max-width: 1300px){
 .text2 {
   margin-left: 90%;
+}
+
+.text {
+  white-space: nowrap;
+  font-size: 19px;
 }
 
 }

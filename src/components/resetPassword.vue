@@ -75,13 +75,10 @@
                       email: this.user.mail,
                   }
               };
-              const defaultUrl = '/resetPassword';
               if(this.user.mail !== '')
               {
                   request.getData(url, options, function (msg) {
-                      console.log(msg);
                       document.getElementById('msg').innerHTML = msg;
-                      console.log(document.getElementById('msg').innerHTML);
                   });
                }
               else{

@@ -2,11 +2,12 @@
 <template>
   <div class="">
   <div class="line">
-    <filtrationMini></filtrationMini>
+<filtrationMini></filtrationMini>
   </div>
 <div class="mainPage" v-on:mouseover="hideProfile()">
   <div class="section_1">
     <filtration></filtration>
+
   </div>
   <div class="section_2" v-on:mouseover="hideProfile()" >
     <pagination  v-bind:col='parseInt(this.$route.params.page)' v-bind:dot="parseInt(this.totalPages)"></pagination>
@@ -682,6 +683,11 @@ a:-webkit-any-link {
 
 
 @media screen and (max-width: 1000px){
+
+  .line{
+    display: block!important;
+  }
+
 .section_1{
 display: none;
 }
@@ -695,10 +701,6 @@ display: none;
 
 }
 
-
-.line{
-  display: block;
-}
 
 
 }
